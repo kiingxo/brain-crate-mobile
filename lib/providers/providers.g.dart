@@ -60,6 +60,26 @@ final filteredDocumentsProvider = AutoDisposeProvider<List<Document>>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef FilteredDocumentsRef = AutoDisposeProviderRef<List<Document>>;
+String _$selectedDocumentsForSessionHash() =>
+    r'a9bb8f6b9e415d3e000af10b49d558085d119a33';
+
+/// See also [selectedDocumentsForSession].
+@ProviderFor(selectedDocumentsForSession)
+final selectedDocumentsForSessionProvider =
+    AutoDisposeProvider<List<Document>>.internal(
+      selectedDocumentsForSession,
+      name: r'selectedDocumentsForSessionProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$selectedDocumentsForSessionHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef SelectedDocumentsForSessionRef = AutoDisposeProviderRef<List<Document>>;
 String _$documentsNotifierHash() => r'5bdf80c70cfaadff07f4a5a034d2eb432e7355ab';
 
 /// See also [DocumentsNotifier].
@@ -114,5 +134,25 @@ final selectedCourseNotifierProvider =
     );
 
 typedef _$SelectedCourseNotifier = AutoDisposeNotifier<String?>;
+String _$tutorialSessionNotifierHash() =>
+    r'f81f75c09e06e599e2d6ee1022ca7e7675908e11';
+
+/// See also [TutorialSessionNotifier].
+@ProviderFor(TutorialSessionNotifier)
+final tutorialSessionNotifierProvider = AutoDisposeNotifierProvider<
+  TutorialSessionNotifier,
+  TutorialSessionState
+>.internal(
+  TutorialSessionNotifier.new,
+  name: r'tutorialSessionNotifierProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$tutorialSessionNotifierHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$TutorialSessionNotifier = AutoDisposeNotifier<TutorialSessionState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

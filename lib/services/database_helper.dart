@@ -1,5 +1,5 @@
 import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
+import 'package:path/path.dart' as paths;
 import '../models/document.dart';
 
 class DatabaseHelper {
@@ -16,7 +16,7 @@ class DatabaseHelper {
   }
 
   Future<Database> _initDatabase() async {
-    String path = join(await getDatabasesPath(), 'brain_crate.db');
+    String path = paths.join(await getDatabasesPath(), 'brain_crate.db');
     return await openDatabase(
       path,
       version: 1,

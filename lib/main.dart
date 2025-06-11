@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'screens/library_screen.dart';
+import 'screens/tutor_screen.dart';
 
 void main() => runApp(
   const ProviderScope(
@@ -33,9 +34,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   static const List<Widget> _pages = <Widget>[
     LibraryScreen(),
-    Center(child: Text('AI Tutor Chat 💬', style: TextStyle(fontSize: 24))),
+    TutorScreen(),
     Center(child: Text('Dashboard / Progress 📊', style: TextStyle(fontSize: 24))),
-   
     Center(child: Text('Profile / Settings 👤', style: TextStyle(fontSize: 24))),
   ];
 
@@ -54,7 +54,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       appBar: AppBar(title: const Text('BrainCrate')),
       body: _pages[_selectedIndex],
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 12), // pushes nav bar up a bit
+        padding: const EdgeInsets.only(bottom: 12), 
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(

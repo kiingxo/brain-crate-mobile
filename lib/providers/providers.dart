@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../services/database_helper.dart';
 import '../services/document_service.dart';
 import '../models/document.dart';
+import '../models/tutorial_session_state.dart';
 
 part 'providers.g.dart';
 
@@ -66,6 +67,41 @@ class SelectedCourseNotifier extends _$SelectedCourseNotifier {
   }
 }
 
+@riverpod
+class TutorialSessionNotifier extends _$TutorialSessionNotifier {
+  @override
+  TutorialSessionState build() {
+    return const TutorialSessionState();
+  }
+
+  void selectDocument(String documentId) {
+    final currentSelection = state.selectedDocumentIds.toSet();
+    currentSelection.add(documentId);
+    state = state.copyWith(selectedDocumentIds: currentSelection);
+  }
+
+  void deselectDocument(String documentId) {
+    final currentSelection = state.selectedDocumentIds.toSet();
+    currentSelection.remove(documentId);
+    state = state.copyWith(selectedDocumentIds: currentSelection);
+  }
+
+  void clearSelection() {
+    state = state.copyWith(selectedDocumentIds: {});
+  }
+
+  void startSession() {
+    state = state.copyWith(isActive: true);
+  }
+
+  void endSession() {
+    state = state.copyWith(isActive: false, selectedDocumentIds: {});
+  }
+
+  List<Document> getSelectedDocuments(List<Document> allDocuments) {
+    return allDocuments.where((doc) => state.selectedDocumentIds.contains(doc.id)).toList();
+  }
+}
 
 @riverpod
 List<Document> filteredDocuments(Ref ref) {
@@ -78,6 +114,20 @@ List<Document> filteredDocuments(Ref ref) {
         return documents;
       }
       return documents.where((doc) => doc.course == selectedCourse).toList();
+    },
+    loading: () => [],
+    error: (_, __) => [],
+  );
+}
+
+@riverpod
+List<Document> selectedDocumentsForSession(Ref ref) {
+  final sessionState = ref.watch(tutorialSessionNotifierProvider);
+  final documentsAsync = ref.watch(documentsNotifierProvider);
+  
+  return documentsAsync.when(
+    data: (documents) {
+      return documents.where((doc) => sessionState.selectedDocumentIds.contains(doc.id)).toList();
     },
     loading: () => [],
     error: (_, __) => [],
